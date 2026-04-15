@@ -629,4 +629,684 @@ footer{
 .empty-state .icon{font-size:56px;margin-bottom:16px;display:block;opacity:0.3;}
 .empty-state h3{font-family:'Orbitron',sans-serif;font-size:16px;color:var(--text2);margin-bottom:8px;}
 
-/* ============ MOBILE =======
+/* ============ MOBILE ============ */
+@media(max-width:768px){
+  nav{padding:0 16px;}
+  .nav-links{display:none;position:fixed;top:64px;left:0;right:0;
+    background:var(--bg2);border-bottom:1px solid var(--border);
+    flex-direction:column;padding:16px;gap:4px;z-index:99;}
+  .nav-links.open{display:flex;}
+  .nav-links a{padding:12px 16px;border-radius:6px;}
+  .hamburger{display:flex;}
+  .section{padding:60px 16px;}
+  .schedule-item{grid-template-columns:1fr;gap:8px;}
+  .modal{padding:28px 20px;}
+}
+
+/* ============ SCROLL INDICATOR ============ */
+.scroll-line{
+  position:fixed;top:64px;left:0;height:2px;
+  background:linear-gradient(90deg,var(--accent),var(--gold));
+  z-index:99;width:0%;transition:width 0.1s;
+}
+
+/* glow text utility */
+.glow{text-shadow:0 0 20px rgba(232,98,26,0.6);}
+</style>
+</head>
+<body>
+
+<canvas id="phoenix-canvas"></canvas>
+<div class="scroll-line" id="scroll-line"></div>
+
+<div id="app">
+
+<!-- ============ NAV ============ -->
+<nav>
+  <div class="nav-logo" onclick="showPage('home')">
+    <img src="https://i.imgur.com/1gBVjDS.png" alt="ReBorn Empr"/>
+    <span class="nav-brand">ReBorn Empr</span>
+  </div>
+  <div class="nav-links" id="nav-links">
+    <a onclick="showPage('home')" data-page="home">Home</a>
+    <a onclick="showPage('team')" data-page="team">Team</a>
+    <a onclick="showPage('tournaments')" data-page="tournaments">Tournaments</a>
+    <a onclick="showPage('achievements')" data-page="achievements">Achievements</a>
+    <a onclick="showPage('schedule')" data-page="schedule">Schedule</a>
+    <a onclick="showPage('announcements')" data-page="announcements">News</a>
+    <a onclick="showPage('contact')" data-page="contact">Contact</a>
+    <a onclick="showPage('social')" data-page="social">Social</a>
+  </div>
+  <div class="nav-auth">
+    <div id="nav-user-info"><span id="nav-email">—</span></div>
+    <button class="btn-sm btn-login" id="btn-open-login" onclick="openModal()">Login</button>
+    <button class="btn-sm btn-logout" id="btn-logout" style="display:none" onclick="logout()">Logout</button>
+  </div>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ============ PAGES ============ -->
+
+<!-- HOME -->
+<div class="page" id="page-home">
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">🔥 Free Fire Esports Organization</div>
+      <img class="hero-logo" src="https://i.imgur.com/1gBVjDS.png" alt="ReBorn Empr"/>
+      <h1 class="hero-title">ReBorn <span class="empr">Empr</span></h1>
+      <p class="hero-tagline">Rise From The Ashes. Dominate The Empire.</p>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num">6</span><span class="stat-label">Active Players</span></div>
+        <div class="stat"><span class="stat-num">2</span><span class="stat-label">Game Titles</span></div>
+        <div class="stat"><span class="stat-num">∞</span><span class="stat-label">Will To Win</span></div>
+      </div>
+      <div class="hero-cta">
+        <button class="btn btn-primary" onclick="showPage('team')">Meet The Team</button>
+        <button class="btn btn-secondary" onclick="showPage('tournaments')">Tournaments</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TEAM -->
+<div class="page" id="page-team">
+  <div class="section">
+    <div class="section-header">
+      <span class="section-label">Our Warriors</span>
+      <h2 class="section-title">The Roster</h2>
+      <div class="divider"></div>
+    </div>
+
+    <!-- FF -->
+    <div style="margin-bottom:16px;">
+      <span class="section-label" style="display:flex;align-items:center;gap:8px;margin-bottom:24px;">
+        🔫 Free Fire Roster
+      </span>
+    </div>
+    <div class="team-grid" style="margin-bottom:60px;">
+
+      <div class="player-card igl">
+        <span class="player-tag-badge badge-igl">IGL</span>
+        <div class="player-avatar">S</div>
+        <div class="player-ign">Re Clutch</div>
+        <div class="player-name">Sumon (Minhajur Rahman)</div>
+        <div class="player-role">IGL · Bomber · Owner</div>
+        <div class="player-tags"><span class="tag">OWNER</span><span class="tag">HEROIC 3</span><span class="tag">M590</span></div>
+      </div>
+
+      <div class="player-card">
+        <span class="player-tag-badge badge-rusher">Rusher</span>
+        <div class="player-avatar">T</div>
+        <div class="player-ign">Re Legend</div>
+        <div class="player-name">Tanvir Ahmed</div>
+        <div class="player-role">Rusher</div>
+        <div class="player-tags"><span class="tag">RUSHER</span></div>
+      </div>
+
+      <div class="player-card">
+        <span class="player-tag-badge badge-rusher">Rusher</span>
+        <div class="player-avatar">A</div>
+        <div class="player-ign">Re Onfire</div>
+        <div class="player-name">Abir</div>
+        <div class="player-role">2nd Rusher</div>
+        <div class="player-tags"><span class="tag">RUSHER</span></div>
+      </div>
+
+      <div class="player-card manager">
+        <span class="player-tag-badge badge-manager">Manager</span>
+        <div class="player-avatar">S</div>
+        <div class="player-ign">Re Limitz</div>
+        <div class="player-name">Shakibul</div>
+        <div class="player-role">Team Manager</div>
+        <div class="player-tags"><span class="tag">MANAGER</span></div>
+      </div>
+
+      <div class="player-card collab">
+        <span class="player-tag-badge badge-bomber">Bomber</span>
+        <div class="player-avatar">F</div>
+        <div class="player-ign">Re Fahim</div>
+        <div class="player-name">Fahim Ahmed</div>
+        <div class="player-role">Bomber</div>
+        <div class="player-tags"><span class="tag">CDR COLLAB</span><span class="tag">BOMBER</span></div>
+      </div>
+
+      <div class="player-card collab">
+        <span class="player-tag-badge badge-rusher">Rusher</span>
+        <div class="player-avatar">J</div>
+        <div class="player-ign">Re Blade</div>
+        <div class="player-name">Jubayer</div>
+        <div class="player-role">Rusher</div>
+        <div class="player-tags"><span class="tag">CDR COLLAB</span><span class="tag">RUSHER</span></div>
+      </div>
+
+    </div>
+
+    <!-- eFootball -->
+    <div style="margin-bottom:16px;">
+      <span class="section-label" style="display:flex;align-items:center;gap:8px;margin-bottom:24px;">
+        ⚽ eFootball Division
+      </span>
+    </div>
+    <div class="efootball-grid">
+      <div class="efb-card">
+        <div class="efb-id">3156</div>
+        <div class="efb-player">Sumon</div>
+        <div class="efb-game">eFootball ID</div>
+      </div>
+      <div class="efb-card">
+        <div class="efb-id">3150</div>
+        <div class="efb-player">Shaon</div>
+        <div class="efb-game">eFootball ID</div>
+      </div>
+      <div class="efb-card">
+        <div class="efb-id">3154</div>
+        <div class="efb-player">Roni</div>
+        <div class="efb-game">eFootball ID</div>
+      </div>
+      <div class="efb-card">
+        <div class="efb-id">5108</div>
+        <div class="efb-player">Tanvir</div>
+        <div class="efb-game">eFootball ID</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOURNAMENTS -->
+<div class="page" id="page-tournaments">
+  <div class="section">
+    <div class="section-header">
+      <span class="section-label">Competition</span>
+      <h2 class="section-title">Tournaments</h2>
+      <p class="section-sub">The path to glory starts here. Every match counts.</p>
+      <div class="divider"></div>
+    </div>
+    <div class="tournament-list">
+      <div class="tournament-card">
+        <div class="t-info">
+          <div class="t-name">FFWS Bangladesh Spring</div>
+          <div class="t-meta">Free Fire World Series Qualifier · Bangladesh Region</div>
+        </div>
+        <span class="t-status status-dream">🎯 Dream Goal</span>
+      </div>
+      <div class="tournament-card">
+        <div class="t-info">
+          <div class="t-name">Esports World Cup (EWC)</div>
+          <div class="t-meta">Global Championship · Free Fire Division</div>
+        </div>
+        <span class="t-status status-dream">🌍 Ultimate Goal</span>
+      </div>
+      <div class="tournament-card">
+        <div class="t-info">
+          <div class="t-name">Community Scrimmages</div>
+          <div class="t-meta">Regular training matches · Bermuda map · Internal</div>
+        </div>
+        <span class="t-status status-active">🟢 Active</span>
+      </div>
+      <div class="tournament-card">
+        <div class="t-info">
+          <div class="t-name">Regional FF Open</div>
+          <div class="t-meta">Local region tournament · TBD</div>
+        </div>
+        <span class="t-status status-upcoming">🔵 Upcoming</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ACHIEVEMENTS -->
+<div class="page" id="page-achievements">
+  <div class="section">
+    <div class="section-header">
+      <span class="section-label">Hall of Fame</span>
+      <h2 class="section-title">Achievements</h2>
+      <p class="section-sub">Built from the ashes. Each win is a statement.</p>
+      <div class="divider"></div>
+    </div>
+    <div class="achievements-grid">
+      <div class="achievement-card">
+        <span class="ach-icon">🏆</span>
+        <div class="ach-title">Heroic 3 Rank</div>
+        <div class="ach-desc">IGL Sumon reached Heroic 3 rank in Free Fire competitive ladder.</div>
+        <div class="ach-date">2024 Season</div>
+      </div>
+      <div class="achievement-card">
+        <span class="ach-icon">🔥</span>
+        <div class="ach-title">ReBorn Empr Founded</div>
+        <div class="ach-desc">Organization officially established with full FF roster and eFootball division.</div>
+        <div class="ach-date">2024</div>
+      </div>
+      <div class="achievement-card">
+        <span class="ach-icon">⚡</span>
+        <div class="ach-title">25 Kill Days</div>
+        <div class="ach-desc">Consistent daily 25+ kill performance with Booyah targets hit.</div>
+        <div class="ach-date">Ongoing</div>
+      </div>
+      <div class="achievement-card">
+        <span class="ach-icon">🤝</span>
+        <div class="ach-title">CDR Collaboration</div>
+        <div class="ach-desc">Secured collab partnership bringing Re Fahim & Re Blade to the roster.</div>
+        <div class="ach-date">2025</div>
+      </div>
+      <div class="achievement-card">
+        <span class="ach-icon">⚽</span>
+        <div class="ach-title">eFootball Division Launch</div>
+        <div class="ach-desc">Expanded to eFootball with 4-player division representing ReBorn Empr.</div>
+        <div class="ach-date">2025</div>
+      </div>
+      <div class="achievement-card">
+        <span class="ach-icon">🌐</span>
+        <div class="ach-title">Official Web Presence</div>
+        <div class="ach-desc">Launched official website — one step closer to full organization status.</div>
+        <div class="ach-date">2025</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SCHEDULE -->
+<div class="page" id="page-schedule">
+  <div class="section">
+    <div class="section-header">
+      <span class="section-label">Calendar</span>
+      <h2 class="section-title">Schedule</h2>
+      <p class="section-sub">Practice. Grind. Compete. Repeat.</p>
+      <div class="divider"></div>
+    </div>
+    <div class="schedule-list">
+      <div class="schedule-item">
+        <div class="s-date">Daily</div>
+        <div>
+          <div class="s-event">FF Morning Session</div>
+          <div class="s-time">After Wakeup · Solo Grind · 25 Kill Target</div>
+        </div>
+        <span class="s-type">Practice</span>
+      </div>
+      <div class="schedule-item">
+        <div class="s-date">Weekly</div>
+        <div>
+          <div class="s-event">Team Scrimmage</div>
+          <div class="s-time">Full Roster · Bermuda · Tactic Review</div>
+        </div>
+        <span class="s-type">Team</span>
+      </div>
+      <div class="schedule-item">
+        <div class="s-date">TBD</div>
+        <div>
+          <div class="s-event">Regional Open Qualifier</div>
+          <div class="s-time">Official Match · Full Roster Required</div>
+        </div>
+        <span class="s-type">Tournament</span>
+      </div>
+      <div class="schedule-item">
+        <div class="s-date">2025–26</div>
+        <div>
+          <div class="s-event">FFWS Bangladesh Spring</div>
+          <div class="s-time">Qualification Route · Dream Tournament</div>
+        </div>
+        <span class="s-type" style="background:rgba(245,166,35,0.1);color:var(--gold);border-color:rgba(245,166,35,0.3);">Target</span>
+      </div>
+      <div class="schedule-item">
+        <div class="s-date">Ongoing</div>
+        <div>
+          <div class="s-event">eFootball Division Matches</div>
+          <div class="s-time">4 Players · IDs: 3156 · 3150 · 3154 · 5108</div>
+        </div>
+        <span class="s-type" style="background:rgba(30,111,255,0.1);color:#6699ff;border-color:rgba(30,111,255,0.3);">eFootball</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ANNOUNCEMENTS -->
+<div class="page" id="page-announcements">
+  <div class="section">
+    <div class="section-header">
+      <span class="section-label">Latest</span>
+      <h2 class="section-title">Announcements</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="announcement-list">
+      <div class="announcement-card">
+        <div class="ann-header">
+          <div class="ann-title">🌐 Official Website Live</div>
+          <div class="ann-date">2025</div>
+        </div>
+        <span class="ann-tag">Update</span>
+        <div class="ann-body">ReBorn Empr officially launches its website. This marks a major milestone in our journey toward becoming a full esports organization. The empire is rising.</div>
+      </div>
+      <div class="announcement-card" style="border-left-color:var(--blue);">
+        <div class="ann-header">
+          <div class="ann-title">🤝 CDR Collaboration Active</div>
+          <div class="ann-date">2025</div>
+        </div>
+        <span class="ann-tag" style="background:rgba(30,111,255,0.15);color:#6699ff;border-color:rgba(30,111,255,0.3);">Roster</span>
+        <div class="ann-body">Re Fahim (Bomber) and Re Blade (Rusher) join as CDR collab players, strengthening our FF roster significantly heading into competitive season.</div>
+      </div>
+      <div class="announcement-card" style="border-left-color:var(--gold);">
+        <div class="ann-header">
+          <div class="ann-title">⚽ eFootball Division Launched</div>
+          <div class="ann-date">2025</div>
+        </div>
+        <span class="ann-tag" style="background:rgba(245,166,35,0.15);color:var(--gold);border-color:rgba(245,166,35,0.3);">New Division</span>
+        <div class="ann-body">ReBorn Empr expands beyond Free Fire. Our eFootball division is now active with Sumon, Shaon, Roni, and Tanvir representing the org.</div>
+      </div>
+      <div class="announcement-card">
+        <div class="ann-header">
+          <div class="ann-title">🎯 FFWS Bangladesh Spring: Our Target</div>
+          <div class="ann-date">2025–2026</div>
+        </div>
+        <span class="ann-tag">Vision</span>
+        <div class="ann-body">IGL Sumon has officially declared FFWS Bangladesh Spring as the primary target, with EWC as the ultimate goal. The route is mapped. The grind begins now.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="page" id="page-contact">
+  <div class="section">
+    <div class="section-header">
+      <span class="section-label">Join Us</span>
+      <h2 class="section-title">Contact</h2>
+      <p class="section-sub">Want to collab, compete, or sponsor? Reach out through our socials below.</p>
+      <div class="divider"></div>
+    </div>
+    <div style="max-width:600px;margin:0 auto;text-align:center;">
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:40px;margin-bottom:32px;">
+        <div style="font-size:48px;margin-bottom:16px;">🔥</div>
+        <h3 style="font-family:'Orbitron',sans-serif;font-size:16px;color:var(--white);margin-bottom:12px;">ReBorn Empr</h3>
+        <p style="color:var(--text2);font-size:14px;line-height:1.7;margin-bottom:20px;">
+          We're a competitive Free Fire &amp; eFootball organization based in Bangladesh. For collaborations, sponsorships, or scrimmage requests — slide into our Discord or DM on Instagram.
+        </p>
+        <p style="color:var(--accent);font-size:13px;letter-spacing:2px;font-weight:700;">RISE FROM THE ASHES · DOMINATE THE EMPIRE</p>
+      </div>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <a class="btn btn-primary" href="https://discord.gg/FwumJUvMQ" target="_blank">Join Discord</a>
+        <a class="btn btn-secondary" href="https://www.instagram.com/rebornempr" target="_blank">Instagram</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SOCIAL -->
+<div class="page" id="page-social">
+  <div class="section">
+    <div class="section-header">
+      <span class="section-label">Find Us</span>
+      <h2 class="section-title">Social Links</h2>
+      <p class="section-sub">Follow ReBorn Empr across all platforms. Don't miss a moment.</p>
+      <div class="divider"></div>
+    </div>
+    <div class="social-grid">
+      <a class="social-card discord-card" href="https://discord.gg/FwumJUvMQ" target="_blank">
+        <div class="social-icon discord-icon">💬</div>
+        <div>
+          <div class="social-label">Discord</div>
+          <div class="social-name">ReBorn Empr</div>
+        </div>
+      </a>
+      <a class="social-card wa-card" href="https://chat.whatsapp.com/DcshAA3kUWl8JOXg8GgPa9" target="_blank">
+        <div class="social-icon wa-icon">📱</div>
+        <div>
+          <div class="social-label">WhatsApp</div>
+          <div class="social-name">Group Chat</div>
+        </div>
+      </a>
+      <a class="social-card ig-card" href="https://www.instagram.com/rebornempr" target="_blank">
+        <div class="social-icon ig-icon">📸</div>
+        <div>
+          <div class="social-label">Instagram</div>
+          <div class="social-name">@rebornempr</div>
+        </div>
+      </a>
+      <a class="social-card tt-card" href="https://www.tiktok.com/@reborn_empr" target="_blank">
+        <div class="social-icon tt-icon">🎵</div>
+        <div>
+          <div class="social-label">TikTok</div>
+          <div class="social-name">@reborn_empr</div>
+        </div>
+      </a>
+      <a class="social-card gh-card" href="https://github.com/reborn-empr-website" target="_blank">
+        <div class="social-icon gh-icon">💻</div>
+        <div>
+          <div class="social-label">GitHub</div>
+          <div class="social-name">reborn-empr-website</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">ReBorn Empr</div>
+  <div class="footer-tag">Rise From The Ashes. Dominate The Empire.</div>
+  <div class="footer-copy">© 2025 ReBorn Empr — All Rights Reserved</div>
+</footer>
+
+<!-- ============ AUTH MODAL ============ -->
+<div class="modal-overlay" id="auth-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-logo">
+      <img src="https://i.imgur.com/1gBVjDS.png" alt="ReBorn Empr"/>
+      <div class="modal-title">ReBorn Empr</div>
+      <div class="modal-sub">Members Portal</div>
+    </div>
+    <div class="auth-tabs">
+      <div class="auth-tab active" id="tab-login" onclick="switchTab('login')">Login</div>
+      <div class="auth-tab" id="tab-signup" onclick="switchTab('signup')">Sign Up</div>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <div id="form-login">
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" id="login-email" placeholder="your@email.com"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input type="password" class="form-input" id="login-password" placeholder="••••••••"/>
+      </div>
+      <button class="btn btn-primary btn-full" onclick="handleLogin()">Login</button>
+      <div class="auth-msg" id="login-msg"></div>
+    </div>
+
+    <!-- SIGNUP FORM -->
+    <div id="form-signup" style="display:none;">
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" id="signup-email" placeholder="your@email.com"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input type="password" class="form-input" id="signup-password" placeholder="Min 6 characters"/>
+      </div>
+      <button class="btn btn-primary btn-full" onclick="handleSignup()">Create Account</button>
+      <div class="auth-msg" id="signup-msg"></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- #app -->
+
+<script>
+// ============ SUPABASE ============
+const SUPABASE_URL = 'https://ukgvcphszbsfwvkeqwcn.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVrZ3ZjcGhzemJzZnd2a2Vxd2NuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYwNjQ5NzUsImV4cCI6MjA5MTY0MDk3NX0.EFcE-7bNiNyB3tvrqPINuiKVcUUxKC-52oIIiHux6Ks';
+const { createClient } = supabase;
+const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ============ AUTH STATE ============
+let currentUser = null;
+
+async function initAuth() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) setUser(session.user);
+  sb.auth.onAuthStateChange((_event, session) => {
+    if (session) setUser(session.user);
+    else clearUser();
+  });
+}
+
+function setUser(user) {
+  currentUser = user;
+  document.getElementById('nav-user-info').style.display = 'flex';
+  document.getElementById('nav-email').textContent = user.email;
+  document.getElementById('btn-open-login').style.display = 'none';
+  document.getElementById('btn-logout').style.display = 'inline-block';
+  closeModal();
+}
+
+function clearUser() {
+  currentUser = null;
+  document.getElementById('nav-user-info').style.display = 'none';
+  document.getElementById('btn-open-login').style.display = 'inline-block';
+  document.getElementById('btn-logout').style.display = 'none';
+}
+
+async function handleLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const pass = document.getElementById('login-password').value;
+  const msg = document.getElementById('login-msg');
+  msg.className = 'auth-msg';msg.textContent = '';
+  if(!email||!pass){showMsg(msg,'error','Fill all fields.');return;}
+  const { error } = await sb.auth.signInWithPassword({ email, password: pass });
+  if (error) showMsg(msg,'error',error.message);
+  else showMsg(msg,'success','Welcome back! 🔥');
+}
+
+async function handleSignup() {
+  const email = document.getElementById('signup-email').value.trim();
+  const pass = document.getElementById('signup-password').value;
+  const msg = document.getElementById('signup-msg');
+  msg.className = 'auth-msg';msg.textContent = '';
+  if(!email||!pass){showMsg(msg,'error','Fill all fields.');return;}
+  if(pass.length<6){showMsg(msg,'error','Password min 6 characters.');return;}
+  const { error } = await sb.auth.signUp({ email, password: pass });
+  if (error) showMsg(msg,'error',error.message);
+  else showMsg(msg,'success','Account created! Check email to verify.');
+}
+
+async function logout() {
+  await sb.auth.signOut();
+}
+
+function showMsg(el, type, text) {
+  el.className = `auth-msg ${type} show`;
+  el.textContent = text;
+}
+
+// ============ MODAL ============
+function openModal() {
+  document.getElementById('auth-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('auth-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('auth-modal').addEventListener('click', function(e){
+  if(e.target===this) closeModal();
+});
+
+function switchTab(tab) {
+  document.getElementById('tab-login').classList.toggle('active', tab==='login');
+  document.getElementById('tab-signup').classList.toggle('active', tab==='signup');
+  document.getElementById('form-login').style.display = tab==='login'?'block':'none';
+  document.getElementById('form-signup').style.display = tab==='signup'?'block':'none';
+}
+
+// ============ ROUTING ============
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.classList.toggle('active', a.dataset.page === id);
+  });
+  const page = document.getElementById('page-'+id);
+  if(page) page.classList.add('active');
+  document.getElementById('nav-links').classList.remove('open');
+  window.scrollTo(0, 0);
+}
+
+// ============ HAMBURGER ============
+function toggleMenu() {
+  document.getElementById('nav-links').classList.toggle('open');
+}
+
+// ============ SCROLL LINE ============
+window.addEventListener('scroll', () => {
+  const scrolled = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+  document.getElementById('scroll-line').style.width = scrolled + '%';
+});
+
+// ============ PHOENIX CANVAS ============
+(function() {
+  const canvas = document.getElementById('phoenix-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [], t = 0;
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function Particle() {
+    this.reset = function() {
+      this.x = W/2 + (Math.random()-0.5)*300;
+      this.y = H/2 + (Math.random()-0.5)*300;
+      this.vx = (Math.random()-0.5)*0.8;
+      this.vy = -Math.random()*1.5-0.5;
+      this.life = Math.random()*200+100;
+      this.maxLife = this.life;
+      this.r = Math.random()*2+0.5;
+      this.hue = Math.random()*40+10;
+    };
+    this.reset();
+  }
+
+  for(let i=0;i<200;i++) particles.push(new Particle());
+
+  function draw() {
+    ctx.fillStyle = 'rgba(3,5,8,0.15)';
+    ctx.fillRect(0,0,W,H);
+
+    for(let p of particles) {
+      p.x += p.vx + Math.sin(t*0.01 + p.y*0.01)*0.3;
+      p.y += p.vy;
+      p.life--;
+
+      if(p.life<=0) p.reset();
+
+      const alpha = (p.life/p.maxLife);
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle = `hsla(${p.hue},100%,60%,${alpha})`;
+      ctx.fill();
+    }
+
+    // central glow
+    const grad = ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,300);
+    grad.addColorStop(0,'rgba(232,98,26,0.03)');
+    grad.addColorStop(1,'transparent');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0,0,W,H);
+
+    t++;
+    requestAnimationFrame(draw);
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+  draw();
+})();
+
+// ============ INIT ============
+showPage('home');
+initAuth();
+</script>
+</body>
+</html>
